@@ -36,7 +36,7 @@ function App() {
   }, [broadcastChannel])
   return (
     <>
-      {loggedIn && <Logout broadcastChannel={broadcastChannel} />}
+      {loggedIn && <Logout />}
       {!loggedIn
         ? 
           <LoginForm 

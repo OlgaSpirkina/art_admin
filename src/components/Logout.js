@@ -1,6 +1,7 @@
 import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux';
-export default function Logout (broadcastChannel){
+export default function Logout (){
+    const broadcastChannel = new BroadcastChannel('session-expiration');
     const dispatch = useDispatch();
     const logout = async (e) => {
         e.preventDefault();
@@ -12,8 +13,6 @@ export default function Logout (broadcastChannel){
             }
           });
           if (response.ok) {
-            const data = await response.json();
-            console.log(data.success)
             dispatch({ type: 'LOGOUT' });
             broadcastChannel.postMessage('session-expired');
             Cookies.remove('authToken');
