@@ -20,7 +20,7 @@ const LoginForm = ({ broadcastChannel}) => {
         if (response.ok) {
             const data = await response.json();
             setSessionCookie(data.authToken);
-            setLogoutTimer(20000, broadcastChannel)
+            setLogoutTimer(7200000, broadcastChannel)
             store.dispatch({ type: 'LOGIN' })
         } else {
           console.error('Login failed');

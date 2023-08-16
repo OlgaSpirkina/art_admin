@@ -18,7 +18,7 @@ import Settings from './pages/Settings';
 import Cookies from 'js-cookie';
 /********** Redux ***********/
 import store from './store/store';
-
+//
 // Use case when the app is open in multiple tabs I need to communicate the session expiration between all open tabs
 const broadcastChannel = new BroadcastChannel('session-expiration');
 // App component

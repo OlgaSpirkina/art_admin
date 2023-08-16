@@ -7,7 +7,7 @@ import { BsListUl, BsBox } from 'react-icons/bs'
 
 export default function Navbar(){
     return (
-        <aside className="p-4">
+        <aside className="basis-1/4 p-4">
             <NavLink to="/"
                 className="flex gap-1 mb-4"
             >

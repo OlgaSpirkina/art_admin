@@ -1,6 +1,11 @@
 import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux';
+/********** React Icons **********/
+import { AiOutlineLogout } from 'react-icons/ai'
+//
 export default function Logout (broadcastChannel){
+  console.log("broadcast ch")
+  console.log(broadcastChannel)
     const dispatch = useDispatch();
     const logout = async (e) => {
         e.preventDefault();
@@ -26,6 +31,8 @@ export default function Logout (broadcastChannel){
         }
     };
     return (
-        <button onClick={logout}>logout</button>
+      <div className="p-3 text-bermuda cursor-pointer w-32 hover:scale-115">
+        <AiOutlineLogout size={32} onClick={logout}/>
+      </div>
     )
 }
