@@ -62,7 +62,7 @@ export default function Navbar(){
                 </nav>
             </aside>
                 :
-            <nav className="flex items-center justify-between w-full h-16 py-2 bordere-b px-28 mb-36 border-cyan-400">
+            <nav className="flex items-center justify-between w-full h-16 py-2 bordere-b px-28 mb-2 border-cyan-400">
                 <NavLink to="/"
                     className="flex gap-1 mb-4"
                 >
