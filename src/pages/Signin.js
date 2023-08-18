@@ -1,34 +1,30 @@
 import React from 'react';
-import setSessionCookie from '../store/setSessionCookie';
-import store, { setLogoutTimer } from '../store/store';
+import { useDispatch, useSelector } from 'react-redux'
+import { login } from '../store/authSlice';
+import {logoutTimer} from '../store/logoutTimer';
 
-const LoginForm = ({ broadcastChannel}) => {
+const Signin = () => {
     const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
-  
+    const user = useSelector((state)=> state.auth.user)
+    const error = useSelector((state)=> state.auth.error)
+    const dispatch = useDispatch()
     const handleLogin = async (e) => {
       e.preventDefault();
-      try {
-        const response = await fetch('http://localhost:4000/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ username, password }),
-        });
-  
-        if (response.ok) {
-            const data = await response.json();
-            setSessionCookie(data.authToken);
-            setLogoutTimer(20000, broadcastChannel)
-            store.dispatch({ type: 'LOGIN' })
-        } else {
-          console.error('Login failed');
-        }
-      } catch (error) {
-        console.error('Error during login:', error);
-      }
+      dispatch(login({ username, password, persistData: true }))
+        .then((res)=> {
+            logoutTimer()
+            setUsername('')
+            setPassword('')
+        })
     };
+    React.useEffect(() => {
+      const storedUserData = localStorage.getItem('localst');
+      if (storedUserData) {
+          const userData = JSON.parse(storedUserData);
+          dispatch(login({ username: userData.username, persistData: false }));
+      }
+    }, [dispatch]);
     return (
       <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -94,10 +90,10 @@ const LoginForm = ({ broadcastChannel}) => {
           </form>
           <p className="mt-10 text-center text-sm text-gray-500">
             Don't have an account yet? 
-            <a href="/create" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"> Create an account</a>
+            <a href="/signup" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"> Create an account</a>
           </p>
         </div>
       </div>
     );
 }
-export default LoginForm  
+export default Signin  

@@ -1,30 +1,35 @@
-import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux';
-export default function Logout (){
-    const broadcastChannel = new BroadcastChannel('session-expiration');
-    const dispatch = useDispatch();
-    const logout = async (e) => {
-        e.preventDefault();
-        try {
-          const response = await fetch('http://localhost:4000/logout', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            }
-          });
-          if (response.ok) {
-            dispatch({ type: 'LOGOUT' });
-            broadcastChannel.postMessage('session-expired');
-            Cookies.remove('authToken');
-            console.log('Logout successful');
-          } else {
-            console.error('Logout failed');
-          }
-        } catch (error) {
-          console.error('Error during logout:', error);
+import { logout } from '../store/authSlice';
+/********** React Icons **********/
+import { AiOutlineLogout } from 'react-icons/ai'
+//
+export default function Logout ({broadcastChannel}){
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    fetch('http://localhost:4000/logout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          localStorage.removeItem('localst');
+          // Clear the local session and Redux state
+          dispatch(logout());
+          broadcastChannel.postMessage('session-expired');
+          console.log('Logout successful');
+        } else {
+          console.error('Logout failed');
         }
-    };
+      })
+      .catch((error) => {
+        console.error('Error during logout:', error);
+      });
+  };
     return (
-        <button onClick={logout}>logout</button>
+      <div className="p-3 text-bermuda cursor-pointer w-32 hover:scale-115">
+        <AiOutlineLogout size={32} onClick={handleLogout}/>
+      </div>
     )
 }
