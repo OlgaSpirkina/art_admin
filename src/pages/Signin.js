@@ -9,6 +9,9 @@ const Signin = () => {
     const user = useSelector((state)=> state.auth.user)
     const error = useSelector((state)=> state.auth.error)
     const dispatch = useDispatch()
+    console.log("FROM LOGIN")
+    console.log(error)
+    
     const handleLogin = async (e) => {
       e.preventDefault();
       dispatch(login({ username, password, persistData: true }))
@@ -30,6 +33,7 @@ const Signin = () => {
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign in to your account</h2>
         </div>
+        {error && <p className="text-center mt-8">{error}</p>}
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form 
             onSubmit={handleLogin}

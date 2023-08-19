@@ -30,8 +30,8 @@ export const login = createAsyncThunk('auth/login', async ({ username, password,
         }
         return { username: '' };
     }catch (err) {
-        console.log(err);
-        return thunkAPI.rejectWithValue(err.message);
+        //console.log(err.response.data.error);
+        return thunkAPI.rejectWithValue(err.response.data.error);
     }
 
 })

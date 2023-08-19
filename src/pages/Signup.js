@@ -1,19 +1,31 @@
 import React from 'react'
 import { BsEye } from 'react-icons/bs'
+import axios from 'axios'
 
 function Signup(){
     const [username, setUsername] = React.useState('')
     const [email, setEmail] = React.useState('')
     const [password, setPassword] = React.useState('')
-    const submitSignUpForm = e => {
-        e.preventDefault()
-        
+    const [message, setMessage] = React.useState('')
+    async function submitSignUpForm(e) {
+      e.preventDefault();
+      try {
+        const response = await axios.post('http://localhost:4000/signup', { username, email, password });
+        const data = response.data; 
+        setMessage(data.message);
+        setUsername('');
+        setEmail('');
+        setPassword('');
+      } catch (error) {
+        console.error(error);
+      }
     }
     return (
         <div className="flex min-h-full flex-col justify-center px-6 py-2 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Create your account</h2>
         </div>
+        {message && <p className="text-center mt-8">{message}</p>}
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form 
             onSubmit={submitSignUpForm}
@@ -48,7 +60,7 @@ function Signup(){
               </label>
               <div className="mt-2">
                 <input 
-                    value={username}
+                    value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     id="email" 
                     name="email" 
